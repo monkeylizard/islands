@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Islands</title>
+        <script type="text/javascript" src="d3/d3.v3.js"></script>
+        <style>
+            body {background-color: #9CB4D6}
+            #svgMain {margin-left:auto; margin-right: auto; display:block}
+        </style>
+
+    </head>
+    <body>
+        <script type="text/javascript" src="chartMaker.js"></script>
+        <script type="text/javascript" src="personMaker.js"></script>
+        <script type="text/javascript">
+
+
+            var w = 1000;
+            var h = 600;
+            var color = d3.scale.category10();
+
+            //chart is declared in chartMaker.js. Later it will be
+            //declared here as a call to a function in chartMaker, but
+            //that's how it is now.
+
+            var terra = new world(25,40);
+
+            terra.makeIslands(8, makeIsland);
+            terra.addIslands();
+
+            chart = terra.chart
+
+            var ch = chart.length;
+            var cw = chart[0].length;
+
+            dataset = []
+
+            for(y = 0; y < chart.length; y++) {
+                for(x = 0; x < chart[0].length; x++) {
+                    if(chart[y][x] !== 0) {
+                        dataset.push([y,x]);
+
+                    }
+                }
+            }
+
+            var coordToPixels = function (coords, arrayH, arrayW) {
+                //var hBuf = (h - 20 * arrayH)/2;
+                //var wBuf = (w - 20 * arrayW)/2;
+                var yCo = coords[0] * 20 + 10;
+                var xCo = coords[1] * 20 + 10;
+                return [yCo, xCo];
+            }
+
+/*
+            var svg = d3.select("body")
+                        .append("svg")
+                        .attr("height", h)
+                        .attr("width", w)
+                        .attr("id", "svgMain")
+                        .style("background", "#9CB4D6");*/
+
+            var islands = terra.svg.selectAll("rect")
+                        .data(dataset)
+                        .enter()
+                        .append("rect")
+                        .attr("y", function(d, chart) { return coordToPixels(d, ch, cw)[0]; })
+                        .attr("x", function(d, chart) { return coordToPixels(d, ch, cw)[1]; })
+                        .attr("height", 21)
+                        .attr("width", 21)
+                        .attr("fill", "#039C4A");
+/*
+            var player = {}
+
+            player.body = terra.svg.append("circle")
+                        .attr("cy", 90)
+                        .attr("cx", 100)
+                        .attr("r", 9)
+                        .attr("fill", "#E0701B")
+
+            player.x = 100
+            player.y = 90*/
+
+            var player = new human(terra);
+
+
+
+            d3.select(window).on("keydown", function() {
+                        var evt = event.keyIdentifier;
+                        switch(evt) {
+                                    case "Left":
+                                                player.moveLeft();
+                                                console.log("Left");
+                                                break;
+                                    case "Right":
+                                                player.moveRight();
+                                                console.log("Right");
+                                                break;
+                                    case "Up":
+                                                player.moveUp();
+                                                console.log("Up");
+                                                break;
+                                    case "Down":
+                                                player.moveDown();
+                                                console.log("Down");
+                                                break;
+                        }
+            });
+
+
+        </script>
+    </body>
+</html> 
