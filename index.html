@@ -20,10 +20,6 @@
             var h = 600;
             var color = d3.scale.category10();
 
-            //chart is declared in chartMaker.js. Later it will be
-            //declared here as a call to a function in chartMaker, but
-            //that's how it is now.
-
             var terra = new world(25,40);
 
             terra.makeIslands(8, makeIsland);
@@ -46,20 +42,10 @@
             }
 
             var coordToPixels = function (coords, arrayH, arrayW) {
-                //var hBuf = (h - 20 * arrayH)/2;
-                //var wBuf = (w - 20 * arrayW)/2;
                 var yCo = coords[0] * 20 + 10;
                 var xCo = coords[1] * 20 + 10;
                 return [yCo, xCo];
             }
-
-/*
-            var svg = d3.select("body")
-                        .append("svg")
-                        .attr("height", h)
-                        .attr("width", w)
-                        .attr("id", "svgMain")
-                        .style("background", "#9CB4D6");*/
 
             var islands = terra.svg.selectAll("rect")
                         .data(dataset)
@@ -70,38 +56,25 @@
                         .attr("height", 21)
                         .attr("width", 21)
                         .attr("fill", "#039C4A");
-/*
-            var player = {}
-
-            player.body = terra.svg.append("circle")
-                        .attr("cy", 90)
-                        .attr("cx", 100)
-                        .attr("r", 9)
-                        .attr("fill", "#E0701B")
-
-            player.x = 100
-            player.y = 90*/
 
             var player = new human(terra);
 
-
-
             d3.select(window).on("keydown", function() {
-                        var evt = event.keyIdentifier;
+                        var evt = event.key;
                         switch(evt) {
-                                    case "Left":
+                                    case "ArrowLeft":
                                                 player.moveLeft();
                                                 console.log("Left");
                                                 break;
-                                    case "Right":
+                                    case "ArrowRight":
                                                 player.moveRight();
                                                 console.log("Right");
                                                 break;
-                                    case "Up":
+                                    case "ArrowUp":
                                                 player.moveUp();
                                                 console.log("Up");
                                                 break;
-                                    case "Down":
+                                    case "ArrowDown":
                                                 player.moveDown();
                                                 console.log("Down");
                                                 break;

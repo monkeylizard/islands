@@ -55,7 +55,6 @@ var getNeighbors = function(chart, point) {
 }
 
 var makeIsland = function (chart, weight) {
-    console.log("Building island...");
     var damping = 1.0;
     var height = chart.length;
     var width = chart[0].length;
@@ -94,7 +93,6 @@ var makeCave = function (chart, weight) {
     var width = chart[0].length;
     var point1 = [randInt(2,height-2), randInt(2,width-2)];
     var point2 = [randInt(2,height-2), randInt(2,width-2)];
-    console.log("initial points: ", point1, point2);
     var cave = [point1,point2];
     var check = false;
     var count = 0
@@ -138,7 +136,6 @@ function world(height, width) {
 	    var island = islandMaker(this.chart, Math.random()/10 + 0.07);
 	    this.islands.push(island[0]);
 	    this.spawns.push(island[1]);
-	    console.log(island);
 	}
     };
     this.addIslands = function () {
